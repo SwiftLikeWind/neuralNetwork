@@ -30,28 +30,28 @@ module Weight_Memory #(parameter numWeight = 3, neuronNo=5,layerNo=1,addressWidt
     input [dataWidth-1:0] win,
     output reg [dataWidth-1:0] wout);
     
-    reg [dataWidth-1:0] mem [numWeight-1:0];
+	reg [dataWidth-1:0] mem [numWeight-1:0];//memory weigth and depth fror ram
 
     `ifdef pretrained
         initial
 		begin
-	        $readmemb(weightFile, mem);
+			$readmemb(weightFile, mem); //when pretrained data is used
 	    end
 	`else
 		always @(posedge clk)
 		begin
-			if (wen)
+			if (wen) //when write enable
 			begin
-				mem[wadd] <= win;
+				mem[wadd] <= win; //instiate the win values to the mem of ram
 			end
 		end 
     `endif
     
     always @(posedge clk)
     begin
-        if (ren)
+	    if (ren)//read enable
         begin
-            wout <= mem[radd];
+		wout <= mem[radd];//read it from the memory
         end
     end 
 endmodule
