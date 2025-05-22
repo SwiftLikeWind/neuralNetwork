@@ -81,7 +81,7 @@ module neuron #(parameter layerNo=0,neuronNo=0,numWeight=784,dataWidth=16,sigmoi
     assign BiasAdd = bias + sum;
     assign ren = myinputValid;
     
-    `ifdef pretrained
+    `ifdef pretrained // if predefined then call it from biasfile.
         initial
         begin
             $readmemb(biasFile,biasReg);
@@ -150,7 +150,7 @@ module neuron #(parameter layerNo=0,neuronNo=0,numWeight=784,dataWidth=16,sigmoi
                 sum <= comboAdd; 
         end
     end
-    
+  // add delay to the input  
     always @(posedge clk)
     begin
         myinputd <= myinput;
