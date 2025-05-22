@@ -80,13 +80,13 @@ module neuron #(parameter layerNo=0,neuronNo=0,numWeight=784,dataWidth=16,sigmoi
     assign comboAdd = mul + sum;
     assign BiasAdd = bias + sum;
     assign ren = myinputValid;
-    
-    `ifdef pretrained
+  // RAM instiation   
+    `ifdef pretrained //predefined in include.v
         initial
         begin
-            $readmemb(biasFile,biasReg);
+            $readmemb(biasFile,biasReg); //if pretrained we call it from .mif
         end
-        always @(posedge clk)
+    always @(posedge clk) // if not pretrained
         begin
             bias <= {biasReg[addr][dataWidth-1:0],{dataWidth{1'b0}}};
         end
